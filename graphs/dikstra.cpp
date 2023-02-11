@@ -28,14 +28,15 @@ int main()
             arr[i][j]=1001;
         }
     }
-     for(int i=0;i<n;i++)
+    for(int i=0;i<n;i++)
     {
         cout<<"\nEnter the distances for :"<<i;
         for(int j=0;j<n;j++)
         {
-            int a=1001;
-            if(i!=j)
-            {
+            if(i==j)
+                arr[i][j]=0;
+            else{
+                int a=1001;
                 if(arr[j][i]!=1001)
                   {  a=arr[i][j];
                   }
@@ -47,9 +48,11 @@ int main()
                         a=1001;
                 }
                 
-            }
             arr[i][j]=a;
             arr[j][i]=a;
+            
+            }
+            
         }
     }
     cout<<endl;
@@ -62,43 +65,39 @@ int main()
         cout<<endl;
     }
     vector<int>vis(n,-1);
-    int mini=1001;
-    int row=-1,col=-1;
-    for(int i=0;i<n;i++)
+    vis[0]=0;
+    // int a[n][n];
+    // for(int i=0;i<n;i++)
+    // {
+    //     a[0][i]=arr[0][i];
+    // }
+    int prev=0;   
+    int src=0;
+    for(int i=0;i<n-1;i++)
     {
-        int indx=getmini(arr,i,n,vis);
-        if(arr[i][indx]<mini)
-        {
-            mini=arr[i][indx];
-            col=indx;
-            row=i;
-        }
-    }
-    cout<<"\n The minimum is:\n("<<col<<","<<row<<")-"<<arr[row][col]<<endl;
-    vis[row]=0;
-    vis[col]=0;
-    for(int i=0;i<n-2;i++)
-    {
-        mini=10001;
-        row=-1,col=-1;
+        int col=getmini(arr,src,n,vis);
+        cout<<"hello col:"<<col<<endl;
+        int mini=arr[src][col];
         for(int j=0;j<n;j++)
         {
-            if(vis[j]==0)
+            if(mini+arr[col][j]<arr[src][j])
             {
-                int idx=getmini(arr,j,n,vis);
-                if(arr[j][idx]<mini)
-                {
-                    row=j;
-                    col=idx;
-                    mini=arr[j][idx];
-                }
+                arr[src][j]=mini+arr[col][j];
             }
+            
         }
-        cout<<"("<<row<<","<<col<<")-"<<mini<<endl;
         vis[col]=0;
     }
-    
-    //ip 5  9 75 0 0 95 19 42 51 66 0 31 0 
-    //ip 6 3 0 7 0 4 2 0 5 3 8 0 0 0 2 0 0 0  0 0 0
 
+     for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            cout<<arr[i][j]<<" ";
+        }
+        cout<<endl;
+    }
 }
+
+//ip 6 7 12 0 0 0 2 9 0 0 0 10 0 0 0 4 1 0 0 5 0 0 0
+//ip 6 4 4 0 0 0 2 0 0 0 3 6 1 0 0 2 0 0 0 6 0 0 0
